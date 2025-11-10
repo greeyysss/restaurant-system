@@ -1,0 +1,329 @@
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: visible;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+.scroll-stack-inner {
+  padding: 20vh 5rem 50rem;
+  min-height: 100vh;
+}
+
+.scroll-stack-card-wrapper {
+  position: relative;
+}
+
+.scroll-stack-card {
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  height: 20rem;
+  width: 100%;
+  margin: 30px 0;
+  padding: 3rem;
+  border-radius: 40px;
+  box-sizing: border-box;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+/* Global page layout */
+:root{
+  --accent:#e74c3c;
+  --muted:#666;
+  --bg:#f6f7fb;
+  --card:#fff;
+  --radius:12px;
+  --max-width:980px;
+}
+
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color:#222;
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+
+.site-container{
+  max-width:var(--max-width);
+  margin:3rem auto;
+  padding:1.25rem;
+}
+
+h1,h2,h3{color:var(--accent);margin:0 0 1rem 0}
+
+/* Forms */
+/* Form background: uses a subtle pattern image if available, with a white overlay for readability */
+form{
+  /* overlay + image (image may not exist - browser ignores it) */
+  background-image: linear-gradient(rgba(255,255,255,0.92), rgba(255,255,255,0.92)), url('/restaurant_system/assets/images/bg-forms.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding:1.25rem;border-radius:var(--radius);box-shadow:0 6px 22px rgba(5,10,20,0.06);
+}
+label{display:block;margin:0.5rem 0 0.25rem;font-size:0.95rem;color:var(--muted)}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
+  width:100%;padding:0.6rem 0.75rem;border:1px solid #e5e7eb;border-radius:8px;font-size:1rem;box-sizing:border-box;
+}
+button, .btn{background:var(--accent);color:#fff;border:none;padding:0.6rem 1rem;border-radius:8px;cursor:pointer;font-weight:600}
+button.secondary, .btn.secondary{background:#fff;border:1px solid #ddd;color:var(--accent)}
+
+.muted{color:var(--muted);font-size:0.9rem}
+
+/* Table styles */
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:8px;overflow:hidden}
+th,td{padding:0.75rem 1rem;text-align:left;border-bottom:1px solid #f1f3f6}
+th{background:linear-gradient(90deg,#fff,#fbfbfb);font-weight:700}
+tr:last-child td{border-bottom:none}
+
+.actions form{display:inline-block;margin:0}
+
+/* Utility */
+.center{text-align:center}
+.stack{display:flex;gap:0.75rem;align-items:center}
+.pill{display:inline-block;padding:0.25rem 0.6rem;border-radius:999px;background:#f0f3f6;color:#333;font-weight:600}
+
+/* Responsive */
+@media (max-width:720px){
+  .site-container{padding:0.75rem;margin:1rem}
+  .scroll-stack-inner{padding:10vh 1rem 30rem}
+  .scroll-stack-card{padding:1.25rem;border-radius:20px;height:auto}
+  th,td{padding:0.5rem}
+}
+
+/* Small helpers for success / error */
+.ok{display:inline-block;padding:0.4rem 0.6rem;background:#e6ffef;color:#057a3a;border-radius:8px}
+.error{display:inline-block;padding:0.4rem 0.6rem;background:#fff1f1;color:#a20000;border-radius:8px}
+
+/* Make links nicer */
+a{color:var(--accent);text-decoration:underline}
+
+/* Dither / subtle noise container tailored for your site */
+.dither-container{
+  position:relative;
+  width:100%;
+  min-height:100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  /* subtle grain effect using layered radial gradients */
+  background-image: radial-gradient(rgba(0,0,0,0.015) 1px, transparent 1px),
+                    radial-gradient(rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 6px 6px, 8px 8px;
+  background-position: 0 0, 3px 3px;
+  display:block;
+  overflow:hidden;
+}
+
+/* Optional inner content layer to avoid the grain touching the edges */
+.dither-container .dither-content{
+  position:relative;
+  z-index:2;
+  padding:2rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(250,250,252,0.85));
+  border-radius:12px;
+  box-shadow:0 8px 30px rgba(15,20,30,0.06);
+  max-width:var(--max-width);
+  margin:2rem auto;
+}
+
+/* Subtle overlay layer in case you want to darken or tint */
+.dither-container::before{
+  content:"";
+  position:absolute;inset:0;z-index:1;
+  background:rgba(0,0,0,0.00); /* tweak to darken: 0.03 or so */
+  pointer-events:none;
+}
+
+/* Small helper: apply dither to full page */
+.page-dither{min-height:100vh;display:flex;align-items:flex-start}
+
+/* Dither hero (large animated background) */
+.dither-hero{
+  position:relative;
+  width:100%;
+  height:56vh;
+  min-height:360px;
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:2rem;
+  background:#0b0b0b; /* fallback */
+}
+.dither-hero .dither-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.dither-hero .hero-overlay{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;padding:2rem}
+.dither-hero .hero-content{color:#fff;text-align:center;max-width:880px}
+.dither-hero h1{font-size:2.6rem;line-height:1.05;margin:0;color:white;text-shadow:0 6px 30px rgba(0,0,0,0.6)}
+.dither-hero p.lead{color:rgba(255,255,255,0.85);margin-top:0.75rem;font-size:1.05rem}
+.dither-hero .cta{margin-top:1.25rem}
+
+/* soften the hero edges and add inner vignette for contrast */
+.dither-hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.25));mix-blend-mode:multiply}
+
+/* small-dot overlay to emulate dither/halftone */
+.dither-hero::before{
+  content:"";
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1px), radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size:6px 6px,8px 8px;
+  background-position: 0 0, 3px 3px;
+  mix-blend-mode:screen;
+  opacity:0.9;
+}
+
+/* Text cursor follow animation */
+.text-cursor-container{
+  width:100%;
+  height:100%;
+  position:fixed;
+  left:0;top:0;pointer-events:none;z-index:9999;
+}
+.text-cursor-inner{
+  position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:visible;
+}
+.text-cursor-item{
+  position:absolute;user-select:none;white-space:nowrap;font-size:1.875rem;transform-origin:center;will-change:transform,opacity;pointer-events:none;opacity:1;
+  transition:transform 700ms cubic-bezier(.2,.9,.25,1), opacity 700ms ease;
+}
+
+@keyframes cursor-float {
+  0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-48px) scale(1.1);opacity:0}
+}
+.text-cursor-item.animate{
+  animation: cursor-float 900ms forwards ease-out;
+}
+
+/* Reusable effect panel for forms and cards (subtle animated dither) */
+.effect-panel{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+  padding:1.25rem;
+  background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,250,252,0.92));
+  box-shadow:0 10px 30px rgba(10,20,30,0.06);
+}
+.effect-panel::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px), radial-gradient(circle, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size:6px 6px,8px 8px;mix-blend-mode:overlay;opacity:0.95;
+  animation: grainShift 8s linear infinite;
+}
+.effect-panel > *{position:relative;z-index:2}
+
+@keyframes grainShift{
+  0%{background-position:0 0, 3px 3px}
+  50%{background-position:6px 8px, -3px -6px}
+  100%{background-position:0 0, 3px 3px}
+}
+
+
+ 
+
+
+
+
+/* Menu cards + cart animation styles */
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+.menu-card{
+  background:var(--card);
+  border-radius:16px;
+  padding:1rem;
+  box-shadow:0 8px 24px rgba(10,20,30,0.06);
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:transform .18s ease, box-shadow .18s ease;
+  cursor:pointer;
+}
+.menu-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(10,20,30,0.08)}
+.menu-card .title{font-weight:700;margin-bottom:0.5rem}
+.menu-card .price{color:var(--muted);font-weight:700}
+.menu-card .controls{display:flex;align-items:center;gap:0.5rem;margin-top:0.75rem}
+.qty{min-width:2.6rem;text-align:center;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.menu-card.selected{transform:translateY(-8px) scale(1.02);box-shadow:0 22px 50px rgba(10,20,30,0.12)}
+.menu-card .qty{background:#fbfbfb;border-radius:8px;padding:0.25rem 0.5rem}
+.btn-qty{background:#fff;border:1px solid #e6e6e6;padding:0.4rem 0.6rem;border-radius:8px;cursor:pointer}
+.btn-qty{background:#fff;border:1px solid #e6e6e6;padding:0.45rem 0.55rem;border-radius:8px;cursor:pointer;min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.btn-qty:hover{background:#f6f6f6}
+.btn-qty:active{transform:translateY(1px)}
+.btn-qty:focus{outline:2px solid rgba(0,0,0,0.06);outline-offset:2px}
+/* make the plus/minus glyphs larger & high-contrast */
+.btn-qty{font-size:18px;color:#333}
+.btn-qty svg{width:18px;height:18px}
+
+/* Thumbnail / product image styles */
+.menu-card .thumb{
+  height:120px;
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:0.75rem;
+  background:linear-gradient(180deg, #fff, #fafafa);
+}
+
+.product-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* For images that should be fully visible (no crop) */
+.product-img.contain{
+  object-fit:contain;
+  background:linear-gradient(180deg,#fff,#fafafa);
+}
+
+@media (max-width:480px){
+  .menu-card .thumb{height:90px}
+}
+
+.cart-summary{position:fixed;right:1rem;top:1.5rem;width:220px;background:var(--card);padding:0.75rem;border-radius:12px;box-shadow:0 10px 30px rgba(10,20,30,0.08);z-index:999}
+.cart-summary h4{margin:0 0 0.5rem 0}
+.cart-items{max-height:260px;overflow:auto;margin-bottom:0.5rem}
+.cart-item{display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed #f1f3f6;font-size:0.95rem}
+.cart-total{font-weight:800;margin-top:0.5rem}
+
+/* flying clone animation - will use transform and transition set in JS */
+.fly-clone{position:fixed;z-index:2000;pointer-events:none;border-radius:12px;box-shadow:0 16px 40px rgba(10,20,30,0.12)}
+
+@media (max-width:900px){
+  .cart-summary{position:fixed;right:0.5rem;top:auto;bottom:1rem;width:180px}
+}
+
+/* Page background utilities */
+body.page-menu{background-color: #f4f6fb;}
+body.page-customer-login, body.page-customer-register{background-color: #fafafa;}
+body.page-admin-login{background-color: #f3f7f9}
+
+/* If you prefer an image, place files in assets/images/bg-menu.jpg etc. */
+body.page-menu.has-bg{background-image: url('/restaurant_system/assets/images/bg-menu.jpg');background-size:cover;background-position:center}
+body.page-customer-login.has-bg{background-image: url('/restaurant_system/assets/images/bg-customer-login.jpg');background-size:cover;background-position:center}
+body.page-customer-register.has-bg{background-image: url('/restaurant_system/assets/images/bg-customer-register.jpg');background-size:cover;background-position:center}
+body.page-admin-login.has-bg{background-image: url('/restaurant_system/assets/images/bg-admin-login.jpg');background-size:cover;background-position:center}
+
+/* tweak site-container to have transparent background when using page backgrounds */
+.page-menu .site-container, .page-customer-login .site-container, .page-customer-register .site-container, .page-admin-login .site-container{background:rgba(255,255,255,0.92)}
